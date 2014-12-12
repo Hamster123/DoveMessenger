@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" href="tizen-web-ui-fw/latest/themes/tizen-white/tizen-web-ui-fw-theme.css" name="tizen-theme"/>
+    <title>Dove messaging prototype</title>
+
+    <script src="tizen-web-ui-fw/latest/js/jquery.js"></script>
+    <script src="tizen-web-ui-fw/latest/js/tizen-web-ui-fw-libs.js"></script>
+    <script src="tizen-web-ui-fw/latest/js/tizen-web-ui-fw.js"
+        data-framework-theme="tizen-white"></script>
+
+    <!--NOTE:
+        Additional scripts and css files are to be placed here.
+        You can use jQuery namespace($) and all functionalities in jQuery
+        in your script.  For example:
+
+            <script src="main.js"></script>
+            <link rel="stylesheet" href="my.css">
+    -->
+    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/dove.css"/>
+</head>
+<body style="background: #7aad8e;">
+
+<!-- tree -->
+<div style="background: #7aad8e;">
+<img src="img/treeBackground.jpg" style="width:100%; height:100%;">
+</div>
+
+<!-- house -->
+<div style="position: absolute;left:45%;top:25%;" id = "house">
+<a href="#" onclick="return false;"><img src="img/house.jpg" style="width:35%; height:35%;"></a>
+</div>
+
+<!-- dove 1 -->
+<div style="position: absolute;left:10%;top:34%;visibility: visible;" id = "dove_1">
+<a href="#" onclick="dove_onClick(1);"><img src="img/dove.jpg" style="width:45%; height:45%;"> </a>
+</div>
+
+<!-- dove 2 -->
+<div style="position: absolute;left:16%;top:49%;visibility: visible;" id = "dove_2">
+<a href="#" onclick="dove_onClick(2);"><img src="img/dove.jpg" style="width:45%; height:45%;"> </a>
+</div>
+
+<!-- dove 3 -->
+<div style="position: absolute;left:7%;top:62%;visibility: visible;" id = "dove_3">
+<a href="#" onclick="dove_onClick(3);"> <img src="img/dove.jpg" style="width:45%; height:45%;"> </a>
+</div>
+
+<!-- dove 4 -->
+<div style="position: absolute;left:66%;top:59%;visibility: visible;" id = "dove_4">
+ <a href="#" onclick="dove_onClick(4);"> <img src="img/dove.jpg" style="width:70%; height:70%;"> </a>
+</div>
+
+<!-- dove 5 -->
+<div style="position: absolute;left:67%;top:44%;visibility: hidden;" id = "dove_5">
+<a href="#" onclick="dove5_onClick();"> <img src="img/dove_yellow.png" style="width:55%; height:55%;"> </a>
+</div>
+
+<!-- send window-->
+<div style="position: absolute;left:10%;top:10%; width:80%; height:40%; background: #333333; color:white; display:none;" id = "overlay_send">
+	<center>Message over Avian Carrier</center>
+	<form id="send_message">
+	<textarea style="width:98%;" name="msg" id="send_msg"> </textarea>
+	<input type="hidden" value="msg" name ="post_type">
+	<input type="submit" value="Broadcast">
+	</form> 
+	<input type="button" value="close" onclick = "send_close()";>
+</div>
+
+<!-- alert window-->
+<div style="position: absolute;left:10%;top:10%; width:80%; height:40%; background: #333333; color:white; display:none;" id = "overlay_alert">
+	<div id="alert_text"></div>
+	<input type="button" value="close" onclick = "alert_close()";>
+</div>
+
+<!-- receive window -->
+<div style="position: absolute;left:10%;top:10%; width:80%; height:40%;  background: #333333; color:white;  display:none;" id = "overlay_receive">
+	<div id="receive_text"></div>
+	<input type="button" value="like it" onclick = "receive_close()";>
+	<input type="button" value="Skip" onclick = "receive_close()";>
+</div>
+
+<script type="text/javascript">
+//FROM : http://css-tricks.com/snippets/javascript/get-url-variables/
+
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+</script>
+
+<!-- main ngin-->
+
+<script type="text/javascript">
+	// login
+
+	var ready_check = false;
+	var id,pw;
+	$(document).ready(function() {
+		if(ready_check == false)
+		{
+			id = getQueryVariable("id");
+			pw = getQueryVariable("pw");
+
+			$.getJSON('http://piloteer.wo.tc/~sub/json.php?callback=?','request=id_check&id='+id+'&pw='+pw,function(data){
+				if(data.RESULT != 1)
+				{
+					alert("Login Failed!");
+					window.location = 'index.html';
+				}
+			});
+		
+			ready_check = true;
+		}
+	});
+
+
+	// send / receive
+	//get id
+	var dove_1 = document.getElementById("dove_1");
+	var dove_2 = document.getElementById("dove_2");
+	var dove_3 = document.getElementById("dove_3");
+	var dove_4 = document.getElementById("dove_4");
+	var dove_5 = document.getElementById("dove_5");
+	var overlay_send = document.getElementById("overlay_send");
+	var overlay_receive = document.getElementById("overlay_receive");
+	var overlay_receive_text = document.getElementById("receive_text");
+	var overlay_alert = document.getElementById("overlay_alert");
+	var overlay_text = document.getElementById("alert_text");
+	var current_dove;
+	
+	//show yellow dove when msg arrived
+	function diff_check(){
+		$.getJSON('http://piloteer.wo.tc/~sub/json.php?callback=?','request=msg_available&id='+id+'&pw='+pw,function(data){
+		 if(data.RESULT != 0 && (Math.random() > 0.66))
+		 {
+			dove_5.style.visibility= "visible";
+		 }
+
+		});
+	}
+	setInterval('diff_check()',5000);
+
+	//handles dove click (yellow)
+	function dove5_onClick(){
+		msg_available = false;
+		overlay_receive.style.display="inline";
+		overlay_receive_text.innerHTML = getMessage();
+	}
+	
+	function getMessage(){
+		$.getJSON('http://piloteer.wo.tc/~sub/json.php?callback=?','request=msg&id='+id+'&pw='+pw,function(data){
+			 document.getElementById("receive_text").innerHTML = ("LOADNING..");
+			 document.getElementById("receive_text").innerHTML = (data.TEXT + " - by " + data.USERID);
+		});
+	}
+	
+//	/	function msg_refresh(){
+//				$.getJSON('http://piloteer.wo.tc/~sub/json.php?callback=?','request=msg',function(data){
+//			$('div.msg_ajax').replaceWith(data.TEXT + ' by ' + data.USERID + ' (#' + data.UNIQ + ')');
+//			document.getElementById('msg_ajax').innerHTML = data.TEXT + ' by ' + data.USERID + ' (#' + data.UNIQ + ')';
+//		});
+//		setTimeout("msg_refresh()",5000);
+//	}
+	
+	function receive_close(){
+		overlay_receive.style.display="none";		
+		dove_5.style.visibility= "hidden";
+	}
+	//handles dove click (white)
+	function dove_onClick(num) {
+		overlay_send.style.display= "inline";
+		current_dove = num;
+		return false;
+	}
+	
+	function send_close(){
+		document.getElementById("send_msg").value = '';
+		overlay_send.style.display= "none";
+		return false;
+	}
+	
+	function send(){
+		var data = document.getElementById("send_msg").value;
+		if (data.length < 3)
+		{
+			send_close();
+			return false;
+		}
+		else
+		{	
+			data = encodeURIComponent(data);
+			
+			$.getJSON('http://piloteer.wo.tc/~sub/post.php?callback=?','post_type=msg&msg='+data+'&id='+id+'&pw='+pw,function(data){
+			});
+			
+			send_close();
+			alertMSG('Sent successfully.');
+			document.getElementById("dove_"+current_dove).style.visibility="hidden";
+		}
+	}
+	
+	$('#send_message').submit(function(){
+		send();
+		return false;
+	});
+	
+	//alert message
+	function alertMSG(txt){
+		overlay_alert.style.display="inline";
+		overlay_text.innerHTML=txt;
+	}
+	
+	function alert_close(){
+		overlay_alert.style.display="none";
+	}
+</script> 
+
+</body>
+</html>

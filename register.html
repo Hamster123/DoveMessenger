@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" href="tizen-web-ui-fw/latest/themes/tizen-white/tizen-web-ui-fw-theme.css" name="tizen-theme"/>
+    <title>Dove messaging prototype</title>
+
+    <script src="tizen-web-ui-fw/latest/js/jquery.js"></script>
+    <script src="tizen-web-ui-fw/latest/js/tizen-web-ui-fw-libs.js"></script>
+    <script src="tizen-web-ui-fw/latest/js/tizen-web-ui-fw.js"
+        data-framework-theme="tizen-white"></script>
+
+    <!--NOTE:
+        Additional scripts and css files are to be placed here.
+        You can use jQuery namespace($) and all functionalities in jQuery
+        in your script.  For example:
+
+            <script src="main.js"></script>
+            <link rel="stylesheet" href="my.css">
+    -->
+    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/dove.css"/>
+</head>
+<body style="background: #7aad8e;">
+
+<div style="background: #7aad8e;">
+	<div style="text-align: center; color:white;font-size:20px;">
+		<strong>DOVE MESSANGER </strong><BR>
+		<img src="img/dove_with_mail.png" style="width:70%;">
+	</div>
+	<form action="http://piloteer.wo.tc/~sub/post.php" method="get">
+	<table>
+	<tr> <td colspan="2" style="text-align:center;">Register</td></tr>
+	<tr><td>USERNAME : </td><td><input type="text" name="id"></td></tr>
+	<tr><td>PASSWORD : </td><td><input type="password" name="pw"></td></tr>
+	</table>
+	<input type="hidden" value="register" name ="post_type">
+	<input type="submit" value="Register">
+	</form> 
+
+	<form action="index.html" method="get">
+	<input type="submit" value="Back">
+	</form> 
+
+</div>
+<!--
+<form action="http://piloteer.wo.tc/~sub/post.php" method="get">
+<textarea style="width:100%;" name="msg"> </textarea>
+<input type="hidden" value="msg" name ="post_type">
+<input type="submit" value="Submit msg">
+</form> 
+<div id ="msg_ajax"> </div> <p>*5초마다 랜덤한 메시지를 받아옵니다. (같은 메시지가 다시 표시될 수 있음)
+</p>
+
+<script>
+	
+	$.ajaxSetup({ cache: false });
+
+	function msg_refresh(){
+				$.getJSON('http://piloteer.wo.tc/~sub/json.php?callback=?','request=msg',function(data){
+//			$('div.msg_ajax').replaceWith(data.TEXT + ' by ' + data.USERID + ' (#' + data.UNIQ + ')');
+			document.getElementById('msg_ajax').innerHTML = data.TEXT + ' by ' + data.USERID + ' (#' + data.UNIQ + ')';
+		});
+		setTimeout("msg_refresh()",5000);
+	}
+	
+	var check = false;
+	$(document).ready(function() {
+		if(check == false)
+		{
+			msg_refresh();
+			check = true;
+		}
+	});
+	
+</script> -->
+
+ </body>
+
+</html>

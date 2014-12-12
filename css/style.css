@@ -1,0 +1,73 @@
+#popup
+{
+	margin-left:20px;
+	font-size: large;
+}
+
+
+label {
+color: #E4F2E7;
+font-weight: bold;
+display: block;
+width: 180px;
+border-radius: 7px;
+float: left;
+}
+
+.register
+{
+	font-weight: bold;
+	color: #3D5740;
+	
+}
+
+#Username {
+border-radius: 7px;
+}
+#password{
+border-radius: 7px;
+}
+#email{
+border-radius: 7px;
+}
+
+h2
+{
+	text-align:center;
+}
+
+li
+{
+	  list-style-type: square;
+	   padding-left : 5px;
+	   margin-left: 150px;
+}
+
+#profile_pic
+{
+	margin-left: 70px;
+	
+}
+
+#profil
+{
+  position : absolute;
+  margin-left: 50px;
+  top:0px;
+}
+
+#button_bar
+{
+ position : absolute;
+ left:200px;
+ width:50px;
+ left:0px;
+ top:0px;
+ height:720px;
+}
+
+ul
+{	
+	  margin-left: -150px;
+	
+}

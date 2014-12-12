@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" href="tizen-web-ui-fw/latest/themes/tizen-white/tizen-web-ui-fw-theme.css" name="tizen-theme"/>
+    <title>Dove messaging prototype</title>
+
+    <script src="tizen-web-ui-fw/latest/js/jquery.js"></script>
+    <script src="tizen-web-ui-fw/latest/js/tizen-web-ui-fw-libs.js"></script>
+    <script src="tizen-web-ui-fw/latest/js/tizen-web-ui-fw.js"
+        data-framework-theme="tizen-white"></script>
+
+    <!--NOTE:
+        Additional scripts and css files are to be placed here.
+        You can use jQuery namespace($) and all functionalities in jQuery
+        in your script.  For example:
+
+            <script src="main.js"></script>
+            <link rel="stylesheet" href="my.css">
+    -->
+    <link rel="stylesheet" type="text/css" href="./css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/dove.css"/>
+</head>
+<body style="background: #7aad8e;">
+
+<div style="background: #7aad8e;">
+	<div style="text-align: center; color:white;font-size:20px;">
+		<strong>DOVE MESSANGER </strong><BR>
+		<img src="img/dove_with_mail.png" style="width:70%;">
+	</div>
+
+	<form id="login">
+	<table>
+	<tr><td>USERNAME : </td><td><input type="text" name="id" id="_id"></td></tr>
+	<tr><td>PASSWORD : </td><td><input type="password" name="pw" id="_pw"></td></tr>
+	</table>
+	<input type="hidden" value="login" name ="post_type">
+	<input type="submit" value="Login">
+	</form> 
+
+	<form action="register.html" method="get">
+	<input type="submit" value="Register">
+	</form> 
+</div>
+
+<script>
+	
+	function send(){
+		var id = document.getElementById("_id").value;
+		var pw = document.getElementById("_pw").value;
+		document.location='tree.html?id='+id+'&pw='+pw;
+	}
+	$('#login').submit(function(){
+		send();
+		return false;
+	});
+</script>
+ </body>
+
+</html>

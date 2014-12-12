@@ -1,0 +1,91 @@
+#popup {
+	margin-left: 20px;
+	font-size: large;
+}
+
+#main {
+	background-size: 800px 60px;
+	background-repeat: no-repeat;
+}
+
+label {
+	color: #E4F2E7;
+	font-weight: bold;
+	display: block;
+	width: 180px;
+	border-radius: 7px;
+	float: left;
+}
+
+.register {
+	font-weight: bold;
+	color: #3D5740;
+}
+
+#Username {
+	border-radius: 7px;
+}
+
+#password {
+	border-radius: 7px;
+}
+
+#email {
+	border-radius: 7px;
+}
+
+h2 {
+	text-align: center;
+}
+
+li {
+	list-style-type: square;
+	padding-left: 5px;
+	margin-left: 150px;
+}
+
+#profile_pic {
+	margin-left: 70px;
+}
+
+#house {
+	margin-left: 140px;
+	margin-top: 150px;
+}
+
+#profil {
+	position: absolute;
+	margin-left: 50px;
+	top: 0px;
+}
+
+#button_bar {
+	position: absolute;
+	left: 200px;
+	width: 50px;
+	left: 0px;
+	top: 0px;
+	height: 720px;
+}
+
+a
+{
+	text-decoration: none;
+	text-color : white;
+}
+
+ul {
+	margin-left: -150px;
+}
+
+html
+{
+
+background-color: rgb(120,171,140);
+	
+}
+
+#main_page
+{
+	background-image:url(main.jpeg);
+}
